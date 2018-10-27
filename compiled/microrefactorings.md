@@ -6,14 +6,23 @@
 
 - [Section 1: Introduction](#user-content-introduction)
 - [Chapter 1: What is Microrefactoring?](#user-content-what-is-microrefactoring?)
+- [Chapter 2: Identity Modifications](#user-content-identity-modifications)
 
-### Introduction ###
+## Introduction ##
 
 Several years back, I started working on writing a book. What the book was about -- a technical topic -- or how I planned to go about it -- without a plan -- really doesn't matter.  The important thing is, I never finished it. The primary reason I didn't finish the book, really, is because I realized I knew a lot of mechanics, but I really didn't know very much about communicating those mechanics to someone else.
 
 Fast forward to today, I am starting again. This time, though mechanics are important, I am not particularly invested in how any one person decides they are going to solve a particular problem.  The possibilities are too numerous and it really doesn't matter on first approach anyway.  In all likelihood, something a developer writes today, they will hate a month from now.  This is the nature of programming -- it's not the programming that is hard, it's the learning.
 
 
+### ABC: Always Be Checking ###
+
+This is not a book about testing or writing tests, so we won't spend a lot of time on tests.  Refactoring, however, has become a common part of the agile software development experience.  As we work through the book, examples and recipes will assume there are tests covering the expected behavior.
+
+When code is written without tests, it does not mean the code will not work, nor does it mean the code will not do the work it is expected to do.  Instead, it means changing the code will be a riskier venture.  Even when using automated refactoring tools, it is not outside the realm of possibility the tool might have a bug or make a mistake.  Having some automated way to verify everything works as expected mitigates the risk and anxiety developers can feel around this kind of potential fragility.
+
+Wherever possible, example code has actually been tested and any microrefactorings have been tested for stability and low risk exposure.  This means, for each action you take in your own source code, be sure to run your tests often and don't skip steps.  The more context a programmer tries to keep in their head, the harder it will be to ensure nothing was overlooked.
+    
     
 
 ## What is Microrefactoring? ##
@@ -59,7 +68,6 @@ function compact(values) {
 This renaming was rather straightforward, since the original function was renamed from `isNullUndefinedOrNan` to `isCompactible`.  However, if the original name were duplicated somewhere in a deeper scope (shadowed), it would be unsafe to change all of the names everywhere.  We will explore more of this later.
 
 With an example of refactoring under our belt, we can explore what microrefactoring is.
-
     
 
 ### Microrefactoring ###
@@ -256,7 +264,62 @@ Although this seems like the long way around for performing something like a ren
 
 Although it is very nice to know we can make small, safe steps at any point to our code, the more important aspect of all of these modifications is, it introduced a new language for how to discuss changes we want to make in our code. Each step in this refactoring introduced a small change which we can name and discuss and it introduced a new canonical form for a known refactoring to another state.
     
+    
 
+## Identity Modifications ##
+
+### Introduction ###
+
+Identity modifications are, in and of themselves, not a refactoring in the sense of making a local modification which immediately leads to clarity.  Instead, an identity modification is a mechanism for introducing some new intended construct or domain idea without actually making any structural changes to the code currently used in production.
+
+Identity modifications are the safest of any microrefactoring actions which could be made. Since an identity modification is unexecuted code, as long as there is no syntax error in the code which leads to something which cannot be interpreted or compiled, the code will run exactly as it did before.
+    
+
+### Introduce Variable ###
+
+    
+
+### Introduce Shadowed Variable ###
+
+    
+
+### Introduce Function ###
+
+    
+
+### Assign Unused Value ###
+
+This builds on "introduce variable."
+
+```javascript
+function (a) {
+    const b = 2; // unused
+    return a * 2;
+}
+```
+
+```javascript
+function (a) {
+    const b = a; // unused
+    return a * 2;
+}
+```
+    
+
+### Set Type to "Any" ###
+
+```typescript
+function (a, b) {
+    return a + b;
+}
+```
+
+```typescript
+function (a: any, b: any) {
+    return a + b;
+}
+```
+    
     
 
     

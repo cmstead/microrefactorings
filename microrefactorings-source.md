@@ -5,7 +5,8 @@
     (authors ["Chris Stead"]))
 
 (table-of-contents
-    (section "./chapters/introduction.md")
+    (section-main "./chapters/introduction.md")
     (chapter "./chapters/what-is-microrefactoring.md")
+    (chapter "./chapters/identity-modifications.md")
 )
 /bl-->
